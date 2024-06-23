@@ -20,7 +20,7 @@ private:
     }
 
 public:
-    Bankomat() : balance(0) {
+    Bankomat() : balance(1000) {
         transactionFile.open("transactions.txt", ios::app);
     }
 
@@ -33,7 +33,7 @@ public:
     void insertCard() {
         cout << "Введите номер карты: ";
         cin >> cardNumber;
-        transactionFile << "Карта вставлена: " << cardNumber << endl;
+        transactionFile << endl << "Карта вставлена: " << cardNumber << " Баланс: " << balance << endl;
     }
 
     void depositFunds() {
@@ -45,8 +45,8 @@ public:
             return;
         }
         balance += amount;
-        transactionFile << "Пополнение: " << amount << endl;
-        cout << "Новый баланс: " << balance << endl;
+        transactionFile << "Пополнение: " << amount << " Новый баланс: " << balance << endl;
+        cout << "Новый баланс: " << balance << endl << endl;
     }
 
     void withdrawFunds() {
@@ -71,13 +71,13 @@ public:
             toGive[i] = static_cast<int>(amount) / notes[i];
             amount -= toGive[i] * notes[i];
             if (toGive[i] > 0) {
-                cout << "Купюр номиналом " << notes[i] << ": " << toGive[i] << endl;
+                cout << "Купюр номиналом " << notes[i] << " - " << toGive[i] << endl;
             }
         }
 
         balance -= originalAmount;
-        cout << "Средства сняты. Пожалуйста, заберите деньги." << endl;
-        transactionFile << "Снятие средств: " << originalAmount << endl;
+        cout << "Средства сняты. Пожалуйста, заберите деньги." << endl << endl;
+        transactionFile << "Снятие средств: " << originalAmount << " Новый баланс: " << balance << endl;
         cout << "Новый баланс: " << balance << endl;
     }
 
@@ -85,6 +85,7 @@ public:
         int choice;
         cout << "Выберите операцию: 1 - Пополнение, 2 - Снятие: ";
         cin >> choice;
+
         switch (choice) {
         case 1:
             depositFunds();
