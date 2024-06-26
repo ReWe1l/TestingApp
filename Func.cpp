@@ -13,7 +13,12 @@ void bankomatui() {
     while (continueTransaction) {
         atm.performTransaction();
         cout << "Хотите выполнить еще одну операцию? 1 - Да, 0 - Нет: ";
-        cin >> operation;
+        while (!(cin >> operation) || (operation != 1 && operation != 0)) {
+            cout << "Неправильный ввод. Будьте внимательны." << endl << endl;
+            cout << "Хотите выполнить еще одну операцию? 1 - Да, 0 - Нет: ";
+            cin.clear(); 
+            cin.ignore(100, '\n'); 
+        }
         continueTransaction = operation == 1;
     }
 }
