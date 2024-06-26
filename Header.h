@@ -55,7 +55,7 @@ public:
         cout << "Введите номер карты: ";
         cin >> cardNumber;
         if (!loadCardInfo()) {
-            cerr << "Карта не найдена. Будет создана запись о карте " << cardNumber << " с балансом 0." << endl;
+            cerr << "Карта не найдена. Была создана запись о карте " << cardNumber << " с балансом 0." << endl;
             balance = 0;
             updateCardInfo();
         }
@@ -89,7 +89,6 @@ public:
             return;
         }
 
-        // Жадный алгоритм для выдачи средств
         vector<int> notes = { 5000, 2000, 1000, 500, 100, 50, 10 };
         vector<int> toGive(notes.size(), 0);
         double originalAmount = amount;
