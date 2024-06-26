@@ -19,8 +19,29 @@ private:
         return static_cast<int>(amount) % 10 == 0;
     }
 
+    bool loadCardInfo() {
+        ifstream cardFile(cardNumber + ".txt");
+        if (cardFile.is_open()) {
+            cardFile >> balance;
+            cardFile.close();
+            return true;
+        }
+        return false;
+    }
+
+    void updateCardInfo() {
+        ofstream cardFile(cardNumber + ".txt");
+        if (cardFile.is_open()) {
+            cardFile << balance;
+            cardFile.close();
+        }
+        else {
+            cerr << "Ошибка при обновлении файла карты." << endl;
+        }
+    }
+
 public:
-    Bankomat() : balance(1000) {
+    Bankomat() : balance(0) {
         transactionFile.open("transactions.txt", ios::app);
     }
 
@@ -33,6 +54,11 @@ public:
     void insertCard() {
         cout << "Введите номер карты: ";
         cin >> cardNumber;
+        if (!loadCardInfo()) {
+            cerr << "Карта не найдена. Будет создана запись о карте " << cardNumber << " с балансом 0." << endl;
+            balance = 0;
+            updateCardInfo();
+        }
         transactionFile << endl << "Карта вставлена: " << cardNumber << " Баланс: " << balance << endl;
     }
 
@@ -45,6 +71,7 @@ public:
             return;
         }
         balance += amount;
+        updateCardInfo();
         transactionFile << "Пополнение: " << amount << " Новый баланс: " << balance << endl;
         cout << "Новый баланс: " << balance << endl << endl;
     }
@@ -76,6 +103,7 @@ public:
         }
 
         balance -= originalAmount;
+        updateCardInfo();
         cout << "Средства сняты. Пожалуйста, заберите деньги." << endl << endl;
         transactionFile << "Снятие средств: " << originalAmount << " Новый баланс: " << balance << endl;
         cout << "Новый баланс: " << balance << endl;

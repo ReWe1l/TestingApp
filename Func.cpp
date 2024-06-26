@@ -8,7 +8,6 @@ void bankomatui() {
     int operation;
 
     cout << "Добро пожаловать!" << endl;
-    cout << "В рамках тестирования на Вашу карту были зачислены 1000 рублей." << endl << endl;
 
     while (continueTransaction) {
         atm.performTransaction();
